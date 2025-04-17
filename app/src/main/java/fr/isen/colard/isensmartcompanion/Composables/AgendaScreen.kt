@@ -1,6 +1,7 @@
 package fr.isen.colard.isensmartcompanion.Composables
 
 import android.content.Context
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -8,11 +9,13 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.foundation.shape.RoundedCornerShape
 import fr.isen.colard.isensmartcompanion.api.RetrofitInstance
 import fr.isen.colard.isensmartcompanion.api.WeatherResponse
 import kotlinx.coroutines.launch
@@ -45,6 +48,7 @@ fun AgendaScreen() {
                         }
                     }
                 }
+
                 override fun onFailure(call: Call<WeatherResponse>, t: Throwable) {}
             })
         }
@@ -57,6 +61,7 @@ fun AgendaScreen() {
                     } ?: emptyList()
                 }
             }
+
             override fun onFailure(call: Call<List<Event>>, t: Throwable) {
                 favoriteEvents = emptyList()
             }
@@ -66,6 +71,14 @@ fun AgendaScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(
+                brush = Brush.verticalGradient(
+                    colors = listOf(
+                        Color(0xFFFDFBFB),
+                        Color(0xFFEDEDED)
+                    )
+                )
+            )
             .padding(16.dp)
     ) {
         Row(
@@ -91,13 +104,16 @@ fun AgendaScreen() {
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(vertical = 4.dp),
-                        colors = CardDefaults.cardColors(containerColor = Color(0xFFE3F2FD))
+                            .padding(vertical = 6.dp),
+                        colors = CardDefaults.cardColors(containerColor = Color(0xFFD7E3FC)),
+                        shape = RoundedCornerShape(16.dp),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
                     ) {
-                        Column(modifier = Modifier.padding(12.dp)) {
-                            Text(event.title, fontWeight = FontWeight.Bold)
-                            Text(event.date)
-                            Text(event.location)
+                        Column(modifier = Modifier.padding(16.dp)) {
+                            Text(event.title, fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                            Spacer(modifier = Modifier.height(4.dp))
+                            Text(event.date, fontSize = 14.sp)
+                            Text(event.location, fontSize = 14.sp)
                         }
                     }
                 }
@@ -113,13 +129,16 @@ fun AgendaScreen() {
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(vertical = 4.dp),
-                        colors = CardDefaults.cardColors(containerColor = Color(0xFFF1F8E9))
+                            .padding(vertical = 6.dp),
+                        colors = CardDefaults.cardColors(containerColor = Color(0xFFDEFDE0)),
+                        shape = RoundedCornerShape(16.dp),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
                     ) {
-                        Column(modifier = Modifier.padding(12.dp)) {
-                            Text(course.title, fontWeight = FontWeight.Bold)
-                            Text("Prof : ${course.teacher}")
-                            Text("Heure : ${course.time} - Salle : ${course.room}")
+                        Column(modifier = Modifier.padding(16.dp)) {
+                            Text(course.title, fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                            Spacer(modifier = Modifier.height(4.dp))
+                            Text("Prof : ${course.teacher}", fontSize = 14.sp)
+                            Text("Heure : ${course.time} - Salle : ${course.room}", fontSize = 14.sp)
                         }
                     }
                 }
